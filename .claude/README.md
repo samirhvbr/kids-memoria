@@ -1,17 +1,20 @@
-# Configuracao Claude Code — KIDS/RAFAELA_JOGO_MEMORIA
+# Claude Code configuration — KIDS/RAFAELA_JOGO_MEMORIA
 
 Stack: **Laravel**.
 
-## Arquivos
-- `settings.json` — perfil ATIVO (Opus-only).
-- `settings.local.json` — override local (gitignored), precede o settings.json.
-- `json-opus` / `json-fable5-opus` / `json-fable5-opus-sonnet` — templates stand-by (`cp <tpl> settings.json` p/ trocar).
+## Files
+- `settings.json` — the ACTIVE profile.
+- `settings.local.json` — local override (gitignored), takes precedence over `settings.json`.
 
-## Modelo (todos os perfis)
-- Effort `max` via env `CLAUDE_CODE_EFFORT_LEVEL` (o campo `effortLevel` so aceita low/medium/high/xhigh).
-- 1M nativo no Opus 5 e Fable 5 (sem flag).
-- Fable 5: incluso no Max ate ~22/jun/2026; depois consome creditos. Requer Claude Code v2.1.170+.
+## Model and effort
+- **This repository does not choose the model** (repodocs ADR-027). `settings.json`
+  carries no `model` and no `fallbackModel`, and nothing in `env` steers one — no
+  `ANTHROPIC_MODEL`, no `ANTHROPIC_DEFAULT_*_MODEL`, no `CLAUDE_CODE_SUBAGENT_MODEL`.
+- The model is the user's choice, made per session with `/model`; a subagent inherits
+  the session's model. There are no stand-by profiles to copy over `settings.json`.
+- Effort `max` via the `CLAUDE_CODE_EFFORT_LEVEL` env var (the `effortLevel` field
+  only accepts low/medium/high/xhigh).
 
-## Permissoes
-- `defaultMode: plan`; denies de seguranca (rm -rf, force push, reset --hard, clean -fd, curl|sh).
-- **git push liberado** (em `allow`).
+## Permissions
+- `defaultMode: plan`; security denies (rm -rf, force push, reset --hard, clean -fd, curl|sh).
+- **git push allowed** (in `allow`).
